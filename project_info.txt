@@ -1,0 +1,28 @@
+# LogiFinder Project Overview
+
+## Project Description
+LogiFinder is a web application designed to automatically research and enrich profiles for logistics companies. By simply providing a company name, the system queries multiple external APIs and data sources to gather firmographic data, contact details, and web presence information. This raw data is then processed through a Large Language Model (LLM) to extract structured insights—such as the CEO's name, revenue, headquarters, services, and LinkedIn profiles—and stores them in a local database for easy management and access. It also supports bulk processing features through CSV or Excel uploads.
+
+## Technical Details and Tools Used
+
+### Frontend (Client-side)
+*   **Framework & Build Tool:** React 19 powered by Vite for fast, modern web development.
+*   **Language:** TypeScript (configured via `tsconfig.json`) and JavaScript.
+*   **Icons:** `lucide-react` is used for modern, scalable SVG icons in the UI.
+*   **Data Parsing Features:** 
+    *   `papaparse`: Used for parsing CSV files, enabling bulk upload of company names.
+    *   `xlsx`: Used for parsing Excel files, allowing users to import company lists directly from spreadsheets.
+
+### Backend (Server-side)
+*   **Server Framework:** Node.js with Express.js (`express`, `cors`).
+*   **Database:** SQLite, which provides a lightweight, local database solution (`dev.db`).
+*   **ORM (Object-Relational Mapping):** Prisma (`@prisma/client` and `prisma` CLI) is used to define the schema (`schema.prisma`) and interact with the SQLite database seamlessly.
+*   **Environment Management:** `dotenv` is used to securely load API keys and configuration from a `.env` file.
+
+### Data Enrichment & Specific Features
+The backend relies heavily on external APIs and LLMs to enrich company profiles:
+*   **Apollo.io API:** Used to fetch firmographics (industry, employees, location) and specific contact persons (emails, titles) for a given organization.
+*   **Apify API:** Utilizes the Apify Google Search Scraper actor to search the web and extract official website URLs and LinkedIn profile links.
+*   **SerpAPI:** Used to run Google Searches for general context, headquarters details, CEO names, and revenue snippets.
+*   **Groq API (`groq-sdk`):** Acts as the AI brain of the enrichment pipeline. It takes the unstructured search snippets and data from Apollo/Apify/SerpAPI and extracts a structured JSON object containing all the required fields (like market capture, M&A activities, revenue, etc.) to populate the database.
+*   **HTTP Client:** `axios` is used on the backend to make the REST API calls to Apollo.io and SerpAPI.

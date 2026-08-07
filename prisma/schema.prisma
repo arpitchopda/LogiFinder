@@ -1,0 +1,42 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Company {
+  id                  Int      @id @default(autoincrement())
+  name                String   @unique
+  website             String?
+  headquarters        String?
+  presence            String?
+  yearOfIncorporation String?
+  marketCapture       String?
+  businessServices    String?
+  contactPersons      String?
+  contactName         String?
+  contactEmail        String?
+  contactPhone        String?
+  ceoName             String?
+  address             String?
+  country             String?
+  region              String?
+  revenue             String?
+  employees           String?
+  linkedInProfile     String?
+  maActivities        String?
+  imageUrl            String?
+  domain              String?
+  source              String?
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+}
+
+model UploadHistory {
+  id        Int      @id @default(autoincrement())
+  filename  String
+  uploadedAt DateTime @default(now())
+}
